@@ -1,246 +1,445 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Pritesh Mahajan — Interactive CV & Dashboard</title>
-<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Pritesh Mahajan | Systems Engineering & MBSE</title>
+<meta name="description" content="Pritesh Mahajan — Systems Engineer specializing in Model-Based Systems Engineering, system architecture, safety engineering, aviation, AI data centers and automotive systems.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
 <style>
-  body {font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:#f7fafc; color:#0f172a;}
-  .container{max-width:1100px;margin:28px auto;padding:18px;}
-  header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}
-  .name{font-weight:700;color:#0b63d6;font-size:22px}
-  .title{color:#374151;font-size:13px}
-  .contact{font-size:13px;color:#475569;text-align:right}
-  .btn{background:#0b63d6;color:white;padding:8px 12px;border-radius:8px;cursor:pointer}
-  .card{background:white;border-radius:10px;padding:18px;box-shadow:0 6px 18px rgba(15,23,42,0.06);margin-bottom:16px}
-  .muted{color:#64748b;font-size:13px}
-  .skill-bar{height:8px;background:#e6eefc;border-radius:6px;overflow:hidden}
-  .skill-fill{height:100%;background:linear-gradient(90deg,#0b63d6,#3aa0ff);border-radius:6px}
-  .vstage{cursor:pointer;transition:transform .18s ease, box-shadow .18s ease}
-  .vstage:hover{transform:translateY(-6px);box-shadow:0 12px 30px rgba(11,99,214,0.12)}
-  .tooltip{position:relative}
-  .tipcard{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(100% + 12px);min-width:260px;background:white;border-radius:8px;padding:12px;box-shadow:0 10px 30px rgba(2,6,23,0.08);display:none;z-index:30}
-  .tipcard.visible{display:block}
-  .fade-in{opacity:0;transform:translateY(10px);transition:opacity .6s ease, transform .6s ease}
-  .fade-in.visible{opacity:1;transform:none}
-  @media(max-width:880px){header{flex-direction:column;align-items:flex-start}.contact{text-align:left}}
+:root{
+  --bg:#f5f7fb;--surface:#fff;--surface2:#f8fafc;--text:#111827;
+  --muted:#64748b;--border:#e2e8f0;--accent:#2563eb;--accent2:#60a5fa;
+  --accent-soft:#eff6ff;--success:#16a34a;--dark:#0f172a;
+  --shadow:0 12px 35px rgba(15,23,42,.07)
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+h1,h2,h3,h4{font-family:"Space Grotesk",Inter,sans-serif}
+a{text-decoration:none;color:inherit}
+.container{width:min(1180px,92%);margin:auto}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.9);backdrop-filter:blur(14px);border-bottom:1px solid rgba(226,232,240,.85)}
+.nav-inner{height:68px;display:flex;align-items:center;justify-content:space-between}
+.logo{font:700 20px "Space Grotesk"}
+.logo span{color:var(--accent)}
+.nav-links{display:flex;gap:26px;font-size:14px;color:var(--muted)}
+.nav-links a{transition:.2s}.nav-links a:hover{color:var(--accent)}
+.nav-actions{display:flex;gap:9px}
+.btn{border:0;border-radius:9px;padding:10px 15px;font-weight:600;cursor:pointer;font-size:13px;transition:.2s}
+.btn-primary{background:var(--accent);color:#fff}.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(37,99,235,.25)}
+.btn-outline{border:1px solid var(--border);background:#fff}.btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+
+/* HERO */
+.hero{padding:88px 0 76px}
+.hero-grid{display:grid;grid-template-columns:1.35fr .65fr;gap:60px;align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:6px 11px;border-radius:30px;background:var(--accent-soft);color:var(--accent);font-size:12px;font-weight:700;margin-bottom:18px}
+.status-dot{width:7px;height:7px;background:var(--success);border-radius:50%}
+.hero h1{font-size:clamp(40px,6vw,68px);line-height:1.02;letter-spacing:-2.5px;margin-bottom:20px}
+.hero h1 span{color:var(--accent)}
+.hero-subtitle{font-size:20px;color:#334155;max-width:720px;margin-bottom:18px}
+.hero-description{color:var(--muted);max-width:700px;font-size:15px}
+.hero-buttons{margin-top:28px;display:flex;gap:12px;flex-wrap:wrap}
+.hero-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:28px;box-shadow:var(--shadow)}
+.profile-mark{height:115px;width:115px;border-radius:22px;background:linear-gradient(135deg,#2563eb,#60a5fa);display:flex;align-items:center;justify-content:center;color:#fff;font:700 38px "Space Grotesk";margin-bottom:25px}
+.hero-card h3{font-size:19px;margin-bottom:5px}.hero-card p{color:var(--muted);font-size:13px}
+.mini-info{margin-top:20px;padding-top:18px;border-top:1px solid var(--border)}
+.mini-row{display:flex;justify-content:space-between;gap:15px;font-size:13px;padding:6px 0}
+.mini-row span:first-child{color:var(--muted)}
+
+/* SECTIONS */
+section{padding:70px 0}.section-head{margin-bottom:35px}
+.section-label{color:var(--accent);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px}
+.section-title{font-size:34px;letter-spacing:-1px}.section-description{color:var(--muted);max-width:700px;margin-top:8px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow)}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.about-card{padding:28px}.about-card p{color:var(--muted);font-size:14px}
+.highlight-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px}
+.highlight{padding:16px;border:1px solid var(--border);border-radius:12px;background:var(--surface2)}
+.highlight strong{display:block;font-size:14px;margin-bottom:4px}.highlight span{font-size:12px;color:var(--muted)}
+.current-role{margin-top:22px;padding:30px;background:linear-gradient(135deg,#0f172a,#172554);color:#fff;border-radius:18px;position:relative;overflow:hidden}
+.current-role:after{content:"";position:absolute;width:280px;height:280px;border-radius:50%;background:rgba(59,130,246,.12);right:-100px;top:-100px}
+.current-role small{color:#93c5fd;font-weight:700}.current-role h3{font-size:25px;margin:7px 0}.current-role p{color:#cbd5e1;font-size:14px;max-width:750px}
+.domain-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}.tag{border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);padding:6px 10px;border-radius:7px;font-size:12px}
+
+/* CAPABILITIES */
+.capability-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.capability{padding:23px;transition:.2s}.capability:hover{transform:translateY(-4px);border-color:#bfdbfe}
+.icon{width:42px;height:42px;display:flex;align-items:center;justify-content:center;background:var(--accent-soft);color:var(--accent);border-radius:10px;font-weight:800;margin-bottom:15px}
+.capability h3{font-size:17px;margin-bottom:6px}.capability p{color:var(--muted);font-size:13px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}.chip{padding:5px 8px;border-radius:6px;background:#f1f5f9;font-size:11px;color:#475569}
+
+/* V MODEL */
+.vmodel{padding:30px}.vmodel-layout{display:grid;grid-template-columns:1fr 180px 1fr;gap:20px;align-items:center}
+.v-column{display:flex;flex-direction:column;gap:12px}
+.v-stage{padding:15px;border:1px solid var(--border);border-radius:10px;background:var(--surface2);cursor:pointer;transition:.2s}
+.v-stage:hover,.v-stage.active{border-color:#93c5fd;background:#eff6ff}
+.v-stage strong{display:block;font-size:13px}.v-stage span{font-size:11px;color:var(--muted)}
+.v-center{height:310px;display:flex;align-items:center;justify-content:center}
+.v-svg{width:160px;height:290px}
+.v-note{text-align:center;color:var(--muted);font-size:12px;margin-top:20px}
+
+/* EXPERIENCE */
+.timeline{position:relative;margin-left:12px}.timeline:before{content:"";position:absolute;left:8px;top:0;bottom:0;width:2px;background:#dbeafe}
+.timeline-item{position:relative;padding-left:40px;margin-bottom:35px}
+.timeline-dot{position:absolute;left:0;top:4px;width:18px;height:18px;border-radius:50%;background:#fff;border:4px solid var(--accent)}
+.timeline-card{padding:25px}.timeline-date{color:var(--accent);font-size:12px;font-weight:700}
+.timeline-card h3{font-size:19px;margin:4px 0}.company{color:#475569;font-size:13px;font-weight:600}
+.timeline-card ul{margin-top:15px;padding-left:18px}.timeline-card li{color:var(--muted);font-size:13px;margin:7px 0}
+
+/* DOMAINS */
+.domain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.domain{padding:25px;min-height:190px}.domain h3{font-size:19px}.domain p{color:var(--muted);font-size:13px;margin-top:8px}
+.domain.current{border:1px solid #93c5fd;background:linear-gradient(145deg,#eff6ff,#fff)}
+
+/* PROJECTS */
+.project-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.project{padding:25px;transition:.2s}.project:hover{transform:translateY(-4px)}
+.project-number{font-size:12px;color:var(--accent);font-weight:800}.project h3{font-size:19px;margin:6px 0 8px}.project p{color:var(--muted);font-size:13px}
+
+/* TECH */
+.tech-card{padding:28px}
+.tech-groups{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.tech-group h3{font-size:15px;margin-bottom:10px}.tech-group p{font-size:13px;color:var(--muted)}
+
+/* CONTACT */
+.contact-box{padding:45px;background:#0f172a;color:#fff;border-radius:20px;text-align:center}
+.contact-box h2{font-size:32px}.contact-box p{color:#94a3b8;margin:10px auto 25px;max-width:650px}
+.contact-links{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+footer{padding:35px 0;color:var(--muted);text-align:center;font-size:12px}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(18px);transition:.65s ease}.reveal.show{opacity:1;transform:none}
+
+/* MOBILE */
+@media(max-width:900px){
+  .nav-links{display:none}.hero-grid{grid-template-columns:1fr}.hero{padding:60px 0}
+  .about-grid,.project-grid{grid-template-columns:1fr}.capability-grid,.domain-grid{grid-template-columns:1fr 1fr}
+  .vmodel-layout{grid-template-columns:1fr}.v-center{display:none}.tech-groups{grid-template-columns:1fr 1fr}
+}
+@media(max-width:600px){
+  .nav-actions .btn-outline{display:none}.hero h1{font-size:43px}.hero-subtitle{font-size:17px}
+  .section-title{font-size:28px}.capability-grid,.domain-grid,.highlight-grid,.tech-groups{grid-template-columns:1fr}
+  .contact-box{padding:30px 20px}
+}
+@media print{
+  nav,.hero-buttons,.contact-box,footer{display:none}body{background:#fff}.card{box-shadow:none}
+  section{padding:30px 0}
+}
 </style>
 </head>
+
 <body>
-  <div class="container">
-    <header>
-      <div>
-        <div class="name">Pritesh Shriram Mahajan</div>
-        <div class="title">Model-Based Development & ADAS Validation Engineer | Automotive Systems | MATLAB / CarSim / dSPACE</div>
-      </div>
-      <div class="contact">
-        <div>📍 Nagoya, Japan</div>
-        <div>📞 +91 8805082611</div>
-        <div>✉ priteshmahaja1998@gmail.com</div>
-        <div style="margin-top:6px"><a href="https://www.linkedin.com/in/pritesh-mahajan-404678196" target="_blank" class="muted">LinkedIn</a> &nbsp; • &nbsp; <a href="https://mahajan-pritesh.github.io/Pritesh_Mahajan_CV_Dashboard.html" target="_blank" class="muted">View Interactive Dashboard</a></div>
-      </div>
-    </header>
 
-    <section id="cvMain" class="card fade-in visible">
-      <h3 class="text-lg font-semibold" style="color:#0b63d6">Profile Summary</h3>
-      <p class="muted">Results-oriented Automotive System Engineer with 3+ years of experience in Model-Based Development (MBD), ADAS validation, and ECU testing across MIL, SIL, and HIL environments. Skilled in MATLAB/Simulink, CarSim, CANape and dSPACE. Deep domain knowledge in vehicle dynamics, braking systems, and ISO 26262 V&V processes. Delivered virtual validation frameworks, on-site vehicle testing, and MATLAB-driven CI/CD pipelines.</p>
-      <div style="height:12px"></div>
-
-      <div style="display:grid;grid-template-columns:1fr 320px;gap:18px">
-        <div>
-          <h4 class="font-semibold">Professional Experience</h4>
-          <div style="margin-top:10px">
-            <strong>System Engineer — IVI & ADAS Validation (Onsite: Nagoya, Japan)</strong><br><span class="muted">Sep 2023 – Present</span>
-            <ul style="margin-top:8px">
-              <li>IVI and ADAS System testing: vehicle tests on tracks; generated test cases per ISO 22839 & Euro NCAP.</li>
-              <li>ADAS Feature Testing: LDW, LDP etc.; led customer interactions and status reviews.</li>
-              <li>Brake & Chassis: analyzed ABS, HBB, HSS specs; automated documentation using VBA.</li>
-              <li>Training & Benchmarking: trained offshore associates; benchmarking via M2MAC and MarkLines.</li>
-              <li>C Code Analysis: supported TSR C-code analysis for Traffic Sign Recognition.</li>
-              <li>Simulink+CarSim Mode Judgment: wheel-speed variation models integrated with CarSim to reduce physical tests.</li>
-              <li>GUI & MATLAB App: developed interactive apps for testing and analysis.</li>
-              <li>Test Case Automation: automated CarSim test case generation using Python and VBA.</li>
-              <li>HILS validation: dSPACE & ControlDesk for AEB features.</li>
-            </ul>
-          </div>
-
-          <div style="margin-top:12px">
-            <strong>Assistant System Engineer — MIL & MBD (Pune, India)</strong><br><span class="muted">May 2022 – Aug 2023</span>
-            <ul style="margin-top:8px">
-              <li>Model-in-the-Loop (MIL): created Simulink models for ADAS; executed MIL testing and Reactis scripts.</li>
-              <li>Verification: visual confirmation, scope-based functional checks.</li>
-              <li>Automation: MATLAB tools for model validation, reporting, MAAB/JAAB compliance.</li>
-              <li>ADAS Software Updates: requirement analysis and software updates for HVAC & ADAS modules.</li>
-              <li>Client Collaboration: specification reviews, model updates with onsite teams.</li>
-            </ul>
-          </div>
-
-          <div style="margin-top:12px">
-            <strong>Project Engineer — Enprosyst Solution Pvt Ltd</strong><br><span class="muted">Jan 2021 – Aug 2021</span>
-            <ul style="margin-top:8px">
-              <li>Automation systems for food processing (PLC/HMI), commissioning and site support.</li>
-            </ul>
-          </div>
-        </div>
-
-        <aside>
-          <h4 class="font-semibold">Key Skills</h4>
-          <div style="margin-top:10px">
-            <div class="muted">MATLAB / Simulink / Stateflow</div>
-            <div class="skill-bar" style="margin-top:6px"><div class="skill-fill" style="width:94%"></div></div>
-            <div style="height:8px"></div>
-            <div class="muted">HIL / MIL / SIL Testing (dSPACE)</div>
-            <div class="skill-bar" style="margin-top:6px"><div class="skill-fill" style="width:88%"></div></div>
-            <div style="height:8px"></div>
-            <div class="muted">ADAS & Vehicle Dynamics</div>
-            <div class="skill-bar" style="margin-top:6px"><div class="skill-fill" style="width:92%"></div></div>
-            <div style="height:8px"></div>
-            <div class="muted">Automation & CI/CD (MATLAB scripting)</div>
-            <div class="skill-bar" style="margin-top:6px"><div class="skill-fill" style="width:82%"></div></div>
-            <div style="height:10px"></div>
-            <div class="muted">CANape • CANoe • Reactis • CarSim</div>
-            <div style="height:6px"></div>
-            <div class="muted" style="margin-top:10px">Languages: English • Hindi • Marathi • Japanese (JLPT N5)</div>
-          </div>
-        </aside>
-      </div>
-    </section>
-
-    <section id="dashboardSection" class="card fade-in">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <h3 class="text-lg font-semibold" style="color:#0b63d6">Skillset Dashboard</h3>
-        <button id="toggleCV" class="btn">Show/Hide CV</button>
-      </div>
-      <div style="display:flex;gap:18px;flex-wrap:wrap;margin-top:12px">
-        <div style="flex:1;min-width:300px">
-          <canvas id="skillRadar" height="280"></canvas>
-        </div>
-        <div style="width:360px" class="card" aria-hidden="false">
-          <h4 class="font-semibold">Experience Overview</h4>
-          <canvas id="experienceBar" height="200"></canvas>
-          <div style="height:8px"></div>
-          <div class="muted" style="font-size:13px">Tip: Hover over a bar to see years and details.</div>
-        </div>
-      </div>
-
-      <div id="vcycle" class="mt-8 fade-in" style="padding:12px;background:#ffffff;border-radius:10px;border:1px solid #eef2ff">
-        <h3 class="text-lg font-semibold" style="color:#0b63d6">V-Cycle Experience</h3>
-        <p class="muted">Hover over each stage of the V-cycle to view your role and tools used at that stage.</p>
-        <div style="display:flex;justify-content:center;margin-top:18px;flex-wrap:wrap;gap:18px">
-
-          <div style="display:flex;flex-direction:column;gap:18px;align-items:flex-end">
-            <div class="vstage tooltip" data-stage="requirements">
-              <div style="background:linear-gradient(90deg,#eef6ff,#f0fbff);padding:12px;border-radius:8px;width:260px;text-align:right"><strong>Requirements</strong><div class="muted" style="font-size:12px">ISO 26262, NCAP & ISO 22839 test generation</div></div>
-              <div class="tipcard"><strong>Requirements</strong><div style="height:6px"></div><div class="muted" style="font-size:13px">Performed ADAS requirement analysis, NCAP/ISO 22839 test-case derivation and created V&V traceability matrices.</div></div>
-            </div>
-
-            <div class="vstage tooltip" data-stage="system">
-              <div style="background:linear-gradient(90deg,#eef6ff,#f0fbff);padding:12px;border-radius:8px;width:260px;text-align:right"><strong>System Design</strong><div class="muted" style="font-size:12px">MBD architecture, CarSim integration</div></div>
-              <div class="tipcard"><strong>System Design</strong><div style="height:6px"></div><div class="muted">Designed Simulink architectures, SWC interfaces; integrated CarSim scenarios for virtual validation and vehicle dynamics tuning.</div></div>
-            </div>
-
-            <div class="vstage tooltip" data-stage="implementation">
-              <div style="background:linear-gradient(90deg,#eef6ff,#f0fbff);padding:12px;border-radius:8px;width:260px;text-align:right"><strong>Implementation</strong><div class="muted" style="font-size:12px">S-Functions, code integration</div></div>
-              <div class="tipcard"><strong>Implementation</strong><div style="height:6px"></div><div class="muted">Converted C code into S-Functions, integrated SWCs in MIL/MBD environments and automated model checks.</div></div>
-            </div>
-          </div>
-
-          <div style="width:360px;display:flex;align-items:center;justify-content:center">
-            <svg width="360" height="260" viewBox="0 0 360 260" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-              <defs>
-                <linearGradient id="g1" x1="0" x2="1">
-                  <stop offset="0%" stop-color="#0b63d6" stop-opacity="0.2"></stop>
-                  <stop offset="100%" stop-color="#3aa0ff" stop-opacity="0.2"></stop>
-                </linearGradient>
-              </defs>
-              <path d="M20,30 C120,140 240,140 340,30" stroke="url(#g1)" stroke-width="18" fill="none" stroke-linecap="round"></path>
-              <circle cx="40" cy="36" r="8" fill="#0b63d6"></circle>
-              <circle cx="40" cy="128" r="8" fill="#0b63d6"></circle>
-              <circle cx="40" cy="220" r="8" fill="#0b63d6"></circle>
-              <circle cx="320" cy="36" r="8" fill="#0b63d6"></circle>
-              <circle cx="320" cy="128" r="8" fill="#0b63d6"></circle>
-              <circle cx="320" cy="220" r="8" fill="#0b63d6"></circle>
-              <text x="10" y="20" font-size="12" fill="#0b63d6">Requirements</text>
-              <text x="10" y="112" font-size="12" fill="#0b63d6">System Design</text>
-              <text x="10" y="204" font-size="12" fill="#0b63d6">Implementation</text>
-              <text x="240" y="20" font-size="12" fill="#0b63d6">Verification</text>
-              <text x="240" y="112" font-size="12" fill="#0b63d6">Integration</text>
-              <text x="240" y="204" font-size="12" fill="#0b63d6">Validation</text>
-            </svg>
-          </div>
-
-          <div style="display:flex;flex-direction:column;gap:18px;align-items:flex-start">
-            <div class="vstage tooltip" data-stage="verification">
-              <div style="background:linear-gradient(90deg,#eef6ff,#f0fbff);padding:12px;border-radius:8px;width:260px;text-align:left"><strong>Verification</strong><div class="muted" style="font-size:12px">MIL / HIL / SIL, Reactis</div></div>
-              <div class="tipcard"><strong>Verification</strong><div style="height:6px"></div><div class="muted">Developed MIL & HIL validation frameworks using MATLAB, dSPACE ControlDesk, and Reactis; automated regression tests and fault-injection.</div></div>
-            </div>
-
-            <div class="vstage tooltip" data-stage="integration">
-              <div style="background:linear-gradient(90deg,#eef6ff,#f0fbff);padding:12px;border-radius:8px;width:260px;text-align:left"><strong>Integration</strong><div class="muted" style="font-size:12px">CANape, CANoe, Calibration</div></div>
-              <div class="tipcard"><strong>Integration</strong><div style="height:6px"></div><div class="muted">Used CANape & CANoe for ECU measurement, CAN network validation, and calibration support; integrated C-code with S-Functions for system-level tests.</div></div>
-            </div>
-
-            <div class="vstage tooltip" data-stage="validation">
-              <div style="background:linear-gradient(90deg,#eef6ff,#f0fbff);padding:12px;border-radius:8px;width:260px;text-align:left"><strong>Validation</strong><div class="muted" style="font-size:12px">Track tests, NCAP & ISO 22839</div></div>
-              <div class="tipcard"><strong>Validation</strong><div style="height:6px"></div><div class="muted">Executed ADAS track validation aligned to Euro NCAP and ISO 22839; performed benchmarking using M2MAC and MarkLines for feature evaluation.</div></div>
-            </div>
-          </div>
-
-        </div>
-
-        <div style="width:100%;margin-top:12px;text-align:center" class="muted">V-Cycle maps your contributions from Requirements → Design → Implementation → Verification → Validation.</div>
-      </div>
-
-    </section>
-
-    <footer style="margin-top:18px;text-align:center" class="muted">Generated interactive CV • Best viewed in Chrome/Edge • Use Print → Save as PDF to export static copy.</footer>
+<nav>
+  <div class="container nav-inner">
+    <a href="#" class="logo">Pritesh<span>.</span></a>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#capabilities">Capabilities</a>
+      <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="nav-actions">
+      <button class="btn btn-outline" onclick="window.print()">Download CV</button>
+      <a class="btn btn-primary" href="https://www.linkedin.com/in/pritesh-mahajan-404678196" target="_blank">LinkedIn</a>
+    </div>
   </div>
+</nav>
 
+<header class="hero">
+  <div class="container hero-grid">
+    <div>
+      <div class="eyebrow"><span class="status-dot"></span> Systems Engineering • MBSE</div>
+      <h1>Engineering the<br><span>system behind</span><br>the product.</h1>
+      <p class="hero-subtitle">Senior Engineer focused on Model-Based Systems Engineering, system architecture and cross-domain engineering.</p>
+      <p class="hero-description">Currently exploring aviation and AI data center systems at Eaton, building on a foundation in automotive systems, ADAS, model-based development and virtual validation.</p>
+      <div class="hero-buttons">
+        <a href="#experience" class="btn btn-primary">Explore my journey →</a>
+        <a href="#projects" class="btn btn-outline">View projects</a>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <div class="profile-mark">PM</div>
+      <h3>Pritesh Mahajan</h3>
+      <p>Senior Engineer — Model-Based Systems Engineering</p>
+      <div class="mini-info">
+        <div class="mini-row"><span>Current</span><strong>Eaton</strong></div>
+        <div class="mini-row"><span>Focus</span><strong>MBSE</strong></div>
+        <div class="mini-row"><span>Domains</span><strong>Aviation • Data Centers</strong></div>
+        <div class="mini-row"><span>Foundation</span><strong>Automotive / ADAS</strong></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="about">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-label">01 — Profile</div>
+      <h2 class="section-title">From component thinking to system thinking.</h2>
+      <p class="section-description">A journey across automotive, aviation and data center systems, with systems engineering as the common thread.</p>
+    </div>
+
+    <div class="about-grid">
+      <div class="card about-card">
+        <h3>My approach</h3>
+        <p style="margin-top:12px">I enjoy understanding how complex engineering systems fit together — from stakeholder needs and requirements to architecture, analysis, implementation and verification.</p>
+        <p style="margin-top:12px">My earlier experience in automotive systems gave me a strong foundation in model-based development, ADAS validation and simulation. Today, I am applying and expanding that systems engineering mindset in newer domains.</p>
+
+        <div class="highlight-grid">
+          <div class="highlight"><strong>Systems Thinking</strong><span>Architecture & system-level problem solving</span></div>
+          <div class="highlight"><strong>MBSE</strong><span>Model-based engineering & digital workflows</span></div>
+          <div class="highlight"><strong>Safety</strong><span>System safety & engineering analysis</span></div>
+          <div class="highlight"><strong>Validation</strong><span>Simulation, MIL, SIL & HIL</span></div>
+        </div>
+      </div>
+
+      <div>
+        <div class="current-role">
+          <small>CURRENT ROLE</small>
+          <h3>Model-Based Systems Engineering</h3>
+          <p>Contributing to MBSE adoption, system architecture and engineering analysis across new product domains.</p>
+          <div class="domain-tags">
+            <span class="tag">Aviation</span><span class="tag">AI Data Centers</span>
+            <span class="tag">System Architecture</span><span class="tag">MBSE</span><span class="tag">Safety Engineering</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="capabilities">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-label">02 — Capabilities</div>
+      <h2 class="section-title">Engineering capabilities</h2>
+      <p class="section-description">A combination of systems engineering, modeling, simulation, safety analysis and domain experience.</p>
+    </div>
+
+    <div class="capability-grid">
+      <div class="card capability"><div class="icon">SE</div><h3>Systems Engineering</h3><p>System-level engineering from requirements through architecture, analysis and verification.</p><div class="chips"><span class="chip">Requirements</span><span class="chip">Architecture</span><span class="chip">Traceability</span><span class="chip">V-Model</span></div></div>
+      <div class="card capability"><div class="icon">MB</div><h3>Model-Based Engineering</h3><p>Supporting MBSE adoption and model-based engineering workflows for complex systems.</p><div class="chips"><span class="chip">SysML</span><span class="chip">MBSE</span><span class="chip">System Modeling</span><span class="chip">Digital Engineering</span></div></div>
+      <div class="card capability"><div class="icon">SA</div><h3>Safety Engineering</h3><p>System safety analysis and structured engineering approaches for safety-critical systems.</p><div class="chips"><span class="chip">SAE ARP4761</span><span class="chip">FHA</span><span class="chip">Safety Analysis</span></div></div>
+      <div class="card capability"><div class="icon">MD</div><h3>Model-Based Development</h3><p>Hands-on experience developing and validating automotive control models.</p><div class="chips"><span class="chip">MATLAB</span><span class="chip">Simulink</span><span class="chip">Stateflow</span></div></div>
+      <div class="card capability"><div class="icon">VH</div><h3>Virtual Validation</h3><p>Simulation-driven verification and validation across MIL, SIL and HIL environments.</p><div class="chips"><span class="chip">CarSim</span><span class="chip">dSPACE</span><span class="chip">ControlDesk</span><span class="chip">Reactis</span></div></div>
+      <div class="card capability"><div class="icon">AD</div><h3>Automotive & ADAS</h3><p>Foundation in ADAS, vehicle dynamics, braking and automotive system validation.</p><div class="chips"><span class="chip">ADAS</span><span class="chip">AEB</span><span class="chip">ACC</span><span class="chip">Vehicle Dynamics</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-head">
+      <div class="section-label">03 — Systems Thinking</div>
+      <h2 class="section-title">Experience across the V-Model</h2>
+      <p class="section-description">The tools and domains have changed throughout my career, but the fundamental engineering lifecycle remains connected.</p>
+    </div>
+
+    <div class="card vmodel">
+      <div class="vmodel-layout">
+        <div class="v-column">
+          <div class="v-stage"><strong>Stakeholder Needs</strong><span>Understanding system objectives</span></div>
+          <div class="v-stage"><strong>Requirements</strong><span>Requirement analysis & traceability</span></div>
+          <div class="v-stage"><strong>System Architecture</strong><span>Functional decomposition & interfaces</span></div>
+          <div class="v-stage"><strong>Detailed Design</strong><span>Model-based development</span></div>
+        </div>
+
+        <div class="v-center">
+          <svg class="v-svg" viewBox="0 0 160 290" aria-label="V model">
+            <path d="M22 20 L22 190 L80 250 L138 190 L138 20" fill="none" stroke="#bfdbfe" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="22" cy="20" r="7" fill="#2563eb"/><circle cx="22" cy="75" r="7" fill="#2563eb"/>
+            <circle cx="22" cy="130" r="7" fill="#2563eb"/><circle cx="22" cy="190" r="7" fill="#2563eb"/>
+            <circle cx="138" cy="20" r="7" fill="#2563eb"/><circle cx="138" cy="75" r="7" fill="#2563eb"/>
+            <circle cx="138" cy="130" r="7" fill="#2563eb"/><circle cx="138" cy="190" r="7" fill="#2563eb"/>
+            <circle cx="80" cy="250" r="10" fill="#2563eb"/>
+            <text x="80" y="278" text-anchor="middle" font-size="11" fill="#64748b">System Lifecycle</text>
+          </svg>
+        </div>
+
+        <div class="v-column">
+          <div class="v-stage"><strong>Verification</strong><span>MIL / SIL / HIL testing</span></div>
+          <div class="v-stage"><strong>Integration</strong><span>ECU & system integration</span></div>
+          <div class="v-stage"><strong>Validation</strong><span>Simulation & physical testing</span></div>
+          <div class="v-stage"><strong>System Acceptance</strong><span>Evidence-based validation</span></div>
+        </div>
+      </div>
+      <div class="v-note">Click a stage to highlight the part of the lifecycle.</div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-label">04 — Experience</div>
+      <h2 class="section-title">Career journey</h2>
+      <p class="section-description">A progression from automation and automotive development towards systems engineering and MBSE.</p>
+    </div>
+
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="card timeline-card">
+          <div class="timeline-date">2026 — Present</div>
+          <h3>Senior Engineer — Model-Based Systems Engineering</h3>
+          <div class="company">Eaton India Innovation Center • Pune</div>
+          <ul>
+            <li>Contributing to MBSE adoption through frameworks, methods and reusable engineering practices.</li>
+            <li>Working on systems engineering and architecture activities across aviation and AI data center domains.</li>
+            <li>Performing system safety analysis aligned with SAE ARP4761 activities.</li>
+            <li>Exploring electrical and thermal system architecture for next-generation data center infrastructure.</li>
+          </ul>
+          <div class="chips"><span class="chip">MBSE</span><span class="chip">SysML</span><span class="chip">System Architecture</span><span class="chip">ARP4761</span></div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="card timeline-card">
+          <div class="timeline-date">2022 — 2026</div>
+          <h3>System Engineer — ADAS & IVI</h3>
+          <div class="company">Tata Consultancy Services • Japan / India</div>
+          <ul>
+            <li>Worked on ADAS and automotive system validation across MIL, SIL, HIL and vehicle testing environments.</li>
+            <li>Developed MATLAB/Simulink models and integrated simulation environments using CarSim.</li>
+            <li>Performed ADAS feature validation including AEB, LDW and LDP related activities.</li>
+            <li>Worked with dSPACE, ControlDesk, CANoe and CANape for system and ECU validation.</li>
+            <li>Automated test-case generation, reporting and engineering workflows using Python, MATLAB and VBA.</li>
+          </ul>
+          <div class="chips"><span class="chip">ADAS</span><span class="chip">MBD</span><span class="chip">MATLAB</span><span class="chip">Simulink</span><span class="chip">CarSim</span><span class="chip">dSPACE</span></div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="card timeline-card">
+          <div class="timeline-date">2021 — 2022</div>
+          <h3>Project Engineer</h3>
+          <div class="company">Enprosyst Solution Pvt. Ltd.</div>
+          <ul><li>Worked on industrial automation systems involving PLC, HMI, commissioning and site support.</li></ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-head">
+      <div class="section-label">05 — Domains</div>
+      <h2 class="section-title">Different domains. Same systems mindset.</h2>
+    </div>
+
+    <div class="domain-grid">
+      <div class="card domain current"><h3>Aviation</h3><p>Exploring system architecture and safety engineering for aviation products through MBSE.</p><div class="chips"><span class="chip">MBSE</span><span class="chip">Safety</span><span class="chip">ARP4761</span></div></div>
+      <div class="card domain current"><h3>AI Data Centers</h3><p>Working on system-level thinking around electrical power and thermal infrastructure for AI data centers.</p><div class="chips"><span class="chip">Architecture</span><span class="chip">Electrical</span><span class="chip">Thermal</span></div></div>
+      <div class="card domain"><h3>Automotive</h3><p>Strong foundation in ADAS, vehicle dynamics, model-based development and validation.</p><div class="chips"><span class="chip">ADAS</span><span class="chip">MBD</span><span class="chip">CarSim</span><span class="chip">HIL</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-label">06 — Selected Work</div>
+      <h2 class="section-title">Projects & engineering work</h2>
+      <p class="section-description">Examples of problems I have worked on across modeling, simulation, automation and systems engineering.</p>
+    </div>
+
+    <div class="project-grid">
+      <div class="card project"><div class="project-number">01</div><h3>MBSE Adoption Framework</h3><p>Contributing to reusable approaches and frameworks to support MBSE adoption across engineering teams and product development activities.</p><div class="chips"><span class="chip">MBSE</span><span class="chip">SysML</span><span class="chip">Architecture</span></div></div>
+      <div class="card project"><div class="project-number">02</div><h3>ADAS Virtual Validation</h3><p>Developed simulation-based validation approaches using MATLAB/Simulink and CarSim to evaluate automotive control behavior before physical testing.</p><div class="chips"><span class="chip">MATLAB</span><span class="chip">Simulink</span><span class="chip">CarSim</span></div></div>
+      <div class="card project"><div class="project-number">03</div><h3>Wheel-Speed Variation Model</h3><p>Developed Simulink models integrated with CarSim to study wheel-speed variations and support vehicle-level virtual validation.</p><div class="chips"><span class="chip">Vehicle Dynamics</span><span class="chip">CarSim</span><span class="chip">Simulink</span></div></div>
+      <div class="card project"><div class="project-number">04</div><h3>Test Automation & Engineering Tools</h3><p>Created MATLAB, Python and VBA based tools for test-case generation, reporting, model validation and engineering workflow automation.</p><div class="chips"><span class="chip">Python</span><span class="chip">MATLAB</span><span class="chip">VBA</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-head">
+      <div class="section-label">07 — Technology</div>
+      <h2 class="section-title">Engineering toolbox</h2>
+    </div>
+
+    <div class="card tech-card">
+      <div class="tech-groups">
+        <div class="tech-group"><h3>Systems & MBSE</h3><p>MBSE • SysML • System Architecture • Requirements • Traceability • Cameo / MagicDraw • System Modeling</p></div>
+        <div class="tech-group"><h3>Modeling & Simulation</h3><p>MATLAB • Simulink • Stateflow • CarSim • dSPACE • ControlDesk • AutomationDesk • Reactis</p></div>
+        <div class="tech-group"><h3>Automotive & Communication</h3><p>ADAS • AUTOSAR • CAN • CAN FD • LIN • Ethernet • UDS • DoIP • CANoe • CANalyzer • CANape</p></div>
+        <div class="tech-group"><h3>Programming & Automation</h3><p>Python • MATLAB scripting • VBA • C • Test automation • Engineering tools</p></div>
+        <div class="tech-group"><h3>Safety & Standards</h3><p>SAE ARP4761 • ISO 26262 • Functional safety • Verification & validation</p></div>
+        <div class="tech-group"><h3>Engineering Domains</h3><p>Aviation • AI Data Centers • Electrical Systems • Thermal Systems • Automotive • ADAS</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="container">
+    <div class="contact-box">
+      <h2>Let's connect.</h2>
+      <p>Interested in systems engineering, MBSE, digital engineering, automotive systems, aviation or AI infrastructure? I’m always open to learning from and connecting with people working on complex engineering problems.</p>
+      <div class="contact-links">
+        <a class="btn btn-primary" href="mailto:priteshmahaja1998@gmail.com">Email</a>
+        <a class="btn btn-outline" href="https://www.linkedin.com/in/pritesh-mahajan-404678196" target="_blank">LinkedIn</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">© 2026 Pritesh Mahajan • Systems Engineering & MBSE</div>
+</footer>
 
 <script>
-// Charts
-const radarCtx = document.getElementById('skillRadar').getContext('2d');
-const radarChart = new Chart(radarCtx, {
-  type: 'radar',
-  data: {
-    labels: ['MBD', 'ADAS', 'Automation', 'HIL/MIL/SIL', 'AWS/CI-CD', 'ISO 26262'],
-    datasets: [{
-      label: 'Skill Proficiency (out of 10)',
-      data: [9, 9, 8, 8, 6, 7],
-      backgroundColor: 'rgba(11,99,214,0.12)',
-      borderColor: '#0b63d6',
-      pointBackgroundColor: '#0b63d6'
-    }]
-  },
-  options: { elements: { line: { borderWidth: 2 } }, scales: { r: { beginAtZero: true, max: 10, ticks: { stepSize: 2 } } } }
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting) entry.target.classList.add("show");
+  });
+},{threshold:.12});
+
+document.querySelectorAll(".card,.section-head,.timeline-item").forEach(el=>{
+  el.classList.add("reveal");
+  observer.observe(el);
 });
 
-const barCtx = document.getElementById('experienceBar').getContext('2d');
-const barChart = new Chart(barCtx, {
-  type: 'bar',
-  data: { labels: ['ADAS Validation', 'MBD', 'Automation', 'CI/CD', 'Vehicle Dynamics'], datasets: [{ label: 'Years', data: [3,3,2.5,1,2.5], backgroundColor: '#3aa0ff' }] },
-  options: { responsive: true, scales: { y: { beginAtZero: true, title: { display: true, text: 'Years' } } } }
+document.querySelectorAll(".v-stage").forEach(stage=>{
+  stage.addEventListener("click",()=>{
+    document.querySelectorAll(".v-stage").forEach(x=>x.classList.remove("active"));
+    stage.classList.add("active");
+  });
 });
 
-// Toggle CV
-const toggleCV = document.getElementById('toggleCV');
-const cvMain = document.getElementById('cvMain');
-toggleCV.addEventListener('click', ()=>{ cvMain.style.display = (cvMain.style.display === 'none') ? 'block' : 'none'; toggleCV.textContent = (cvMain.style.display === 'none') ? 'Show CV' : 'Hide CV'; })
+const sections=document.querySelectorAll("section[id]");
+const links=document.querySelectorAll(".nav-links a");
 
-// Tooltip behavior
-document.querySelectorAll('.vstage').forEach(el=>{
-  const tip = el.querySelector('.tipcard');
-  el.addEventListener('mouseenter', ()=> tip.classList.add('visible'));
-  el.addEventListener('mouseleave', ()=> tip.classList.remove('visible'));
+window.addEventListener("scroll",()=>{
+  let current="";
+  sections.forEach(section=>{
+    if(window.scrollY>=section.offsetTop-130) current=section.id;
+  });
+  links.forEach(link=>{
+    link.style.color="";
+    if(link.getAttribute("href")==="#"+current) link.style.color="var(--accent)";
+  });
 });
-
-// Fade-in observer
-const faders = document.querySelectorAll('.fade-in');
-const obs = new IntersectionObserver(entries=>{ entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); }); },{threshold:0.15});
-faders.forEach(f=>obs.observe(f));
-
 </script>
+
 </body>
 </html>
